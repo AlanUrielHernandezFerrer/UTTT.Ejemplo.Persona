@@ -39,8 +39,8 @@
         if (date) {
             var date = new Date(date);
             if (date.getFullYear() > 2003)
-                ErrorMessage = "*Debe de ser mayor de 18 años";
-                alert("No puedes registrar ya que es menos de edad de 18 años");
+              
+                alert("No puedes registrarte ya que eres menor de edad");
         }
     }
 </script>
