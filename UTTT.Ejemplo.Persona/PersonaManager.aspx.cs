@@ -200,7 +200,7 @@ namespace UTTT.Ejemplo.Persona
         protected void dteCalendar_SelectionChanged(object sender, EventArgs e)
         {
 
-            txtFechaa.Text = dteCalendar.SelectedDate.AddDays(7).ToShortDateString();
+            txtFechaa.Text = dteCalendar.SelectedDate.ToShortDateString();
             
         }
     }

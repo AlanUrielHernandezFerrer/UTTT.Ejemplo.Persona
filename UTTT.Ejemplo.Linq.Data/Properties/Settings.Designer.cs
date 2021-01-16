@@ -41,12 +41,14 @@ namespace UTTT.Ejemplo.Linq.Data.Properties {
         //[global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         //[global::System.Configuration.DefaultSettingValueAttribute("data source=ALAN;\ndatabase=Persona;\nIntegrated Security=SSPI;\npersist security in" +
         //    "fo=True;")]
-        //public string PersonaConnectionString {
-        //    get {
+        //public string PersonaConnectionString
+        //{
+        //    get
+        //    {
         //        return ((string)(this["PersonaConnectionString"]));
         //    }
         //}
-        
-     
+
+
     }
 }
