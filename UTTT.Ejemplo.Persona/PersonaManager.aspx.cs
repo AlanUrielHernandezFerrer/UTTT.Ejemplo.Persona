@@ -83,6 +83,7 @@ namespace UTTT.Ejemplo.Persona
                         this.txtAPaterno.Text = this.baseEntity.strAPaterno;
                         this.txtAMaterno.Text = this.baseEntity.strAMaterno;
                         this.txtClaveUnica.Text = this.baseEntity.strClaveUnica;
+                       
                         DateTime? fechaNacimiento = this.baseEntity.dteFechaNacimiento;
                         if (fechaNacimiento != null)
 
@@ -90,7 +91,10 @@ namespace UTTT.Ejemplo.Persona
                             this.dteCalendar.TodaysDate = (DateTime)fechaNacimiento;
                             this.dteCalendar.SelectedDate = (DateTime)fechaNacimiento;
                         }
-                     
+                        this.txtCorreoElectronico.Text = this.baseEntity.strCorreoElectronico;
+                        this.txtCodigoPostal.Text = this.baseEntity.intCodigoPostal.ToString();
+                        this.txtRfc.Text = this.baseEntity.strRfc;
+
                         this.setItem(ref this.ddlSexo, baseEntity.CatSexo.strValor);
                     }                
                 }
@@ -108,6 +112,10 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
+                if(!Page.IsValid)
+                {
+                    return;
+                }
                 DataContext dcGuardar = new DcGeneralDataContext();
                 UTTT.Ejemplo.Linq.Data.Entity.Persona persona = new Linq.Data.Entity.Persona();
                 if (this.idPersona == 0)
@@ -121,6 +129,9 @@ namespace UTTT.Ejemplo.Persona
                     DateTime fechaNacimiento = this.dteCalendar.SelectedDate.Date;
                     
                     persona.dteFechaNacimiento = fechaNacimiento;
+                    persona.strCorreoElectronico = this.txtCorreoElectronico.Text.Trim();
+                    persona.intCodigoPostal = int.Parse(this.txtCodigoPostal.Text);
+                    persona.strRfc = this.txtRfc.Text.Trim();
                     dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().InsertOnSubmit(persona);
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se agrego correctamente.");
@@ -203,5 +214,7 @@ namespace UTTT.Ejemplo.Persona
             txtFechaa.Text = dteCalendar.SelectedDate.ToShortDateString();
             
         }
+
+      
     }
 }
