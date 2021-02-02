@@ -202,19 +202,19 @@ namespace UTTT.Ejemplo.Persona
             catch (Exception _e)
             {
                 this.showMessageException(_e.Message);
-                // Qué ha sucedido
+           
                 var mensaje = "Error message: " + _e.Message;
-                // Información sobre la excepción interna
+
                 if (_e.InnerException != null)
                 {
                     mensaje = mensaje + " Inner exception: " + _e.InnerException.Message;
                 }
-                // Dónde ha sucedido
+         
                 mensaje = mensaje + " Stack trace: " + _e.StackTrace;
                 this.Response.Redirect("~/ErrorPage.aspx", false);
 
 
-                this.EnviarCorreo("alan.ferrer3212@gmail.com", "ERROR", mensaje);
+                this.EnviarCorreo("alan.ferrer3212@gmail.com", "Error inesperado", mensaje);
             }
         }
 
@@ -279,28 +279,25 @@ namespace UTTT.Ejemplo.Persona
         /// 
         public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
         {
-            //Cat Sexo
+            
             if (_persona.idCatSexo == -1)
             {
                 _mensaje = "Seleccione una categoria Masculino o Femenino";
                 return false;
             }
-            //Verifica si es un texto un numero
+    
             int i = 0;
             if (int.TryParse(_persona.strClaveUnica, out i) == false)
             {
                 _mensaje = "La clave unica no acepta letras solo numeros";
                 return false;
             }
-            //Clave unica
-
+      
             if (int.Parse(_persona.strClaveUnica) < 1 || int.Parse(_persona.strClaveUnica) > 999)
             {
                 _mensaje = "No esta dentro del rango  del 1 al 1000";
                 return false;
             }
-
-            //Nombre
 
             string nombre = _persona.strNombre.Trim();
             if (nombre.Length < 3)
@@ -319,7 +316,7 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Rebasa el numero de caracteres de nombre";
                 return false;
             }
-            //Apaterno
+
             string APaterno = _persona.strAPaterno.Trim();
             if (APaterno.Length < 3)
             {
@@ -337,7 +334,7 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Rebasa el numero de caracteres de Apaterno";
                 return false;
             }
-            //Amaterno
+
             string AMaterno = _persona.strAMaterno.Trim();
             if (AMaterno.Length < 3)
             {
@@ -354,10 +351,7 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Rebasa el numero de caracteres de AMaterno";
                 return false;
             }
-            //Fecha de nacimiento
-
-
-            //Correo electronico
+        
             if (_persona.strCorreoElectronico.Equals(String.Empty))
             {
                 _mensaje = "El campo Correo electronico esta vacio";
@@ -367,9 +361,7 @@ namespace UTTT.Ejemplo.Persona
             {
                 _mensaje = "Rebasa el numero de caracteres de correo electronico";
                 return false;
-            }
-            //Codigo postal
-            int j = 0;
+            }   int j = 0;
             if (int.TryParse(_persona.intCodigoPostal.ToString(), out j) == false)
             {
                 _mensaje = "La clave unica no acepta letras solo numeros";
@@ -386,7 +378,6 @@ namespace UTTT.Ejemplo.Persona
                 return false;
             }
 
-            //Rfc
             if (_persona.strRfc.Equals(String.Empty))
             {
                 _mensaje = "El campo Rfc esta vacio";
@@ -501,7 +492,7 @@ namespace UTTT.Ejemplo.Persona
                 objetoCorreo.Subject = asunto;
                 objetoCorreo.TextBody = mensajeCorreo;
 
-                SmtpServer objetoServidor = new SmtpServer("smtp.gmail.com");//servidor proporcionado desde la configuracion de google
+                SmtpServer objetoServidor = new SmtpServer("smtp.gmail.com");
 
                 objetoServidor.User = "alan.ferrer3212@gmail.com";
                 objetoServidor.Password = "Barcelona 2000";

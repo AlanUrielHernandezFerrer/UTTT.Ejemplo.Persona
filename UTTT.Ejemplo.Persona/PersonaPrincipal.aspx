@@ -12,38 +12,21 @@
     
     <div style="color: #000000; font-size: medium; font-family: Arial; font-weight: bold">    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Persona</div>
     <div>
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Image id="Image1" runat="server" Height="92px" ImageUrl="~/Images/usuario.png" Width="103px" AlternateText="Imagen no disponible" ImageAlign="TextTop" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-    <p>
-        Normbre:&nbsp;&nbsp;&nbsp;
-
-        <asp:TextBox ID="txtNombre" runat="server" Width="174px" 
-            ViewStateMode="Disabled"></asp:TextBox>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" 
-            onclick="btnBuscar_Click" ViewStateMode="Disabled" />
-        &nbsp;&nbsp;&nbsp;
-        <asp:Button ID="btnAgregar" runat="server" Text="Agregar" 
-            onclick="btnAgregar_Click" ViewStateMode="Disabled" />
-    </p>
-    </div>
-    <div>
-    
-        Sexo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:DropDownList ID="ddlSexo" runat="server" Height="22px" Width="177px">
-        </asp:DropDownList>
-    
-    </div>
-    <div style="font-weight: bold">
-    
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Detalle</div>
-
-        <div>
+        <pre>
+            
+        </pre>
         
+        <div> 
+            <asp:Button ID="btnAgregar" runat="server" Text="Agregar persona" 
+            onclick="btnAgregar_Click" ViewStateMode="Disabled" BackColor="#99FF99" BorderStyle="Double" />
+           </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Detalle<br />
         </div>
-       
-        <div>
+         <div>
+      
         
              <asp:GridView ID="dgvPersonas" runat="server" 
                 AllowPaging="True" AutoGenerateColumns="False" DataSourceID="DataSourcePersona" 
@@ -106,6 +89,39 @@
         Select="new (strNombre, strAPaterno, strAMaterno, CatSexo, strClaveUnica,id)" 
         TableName="Persona" EntityTypeName="">
     </asp:LinqDataSource>
+    
+    
+    <div>
+    
+        <br />
+        <br />
+    
+        Sexo:&nbspSexo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:DropDownList ID="ddlSexo" runat="server" Height="22px" Width="177px">
+        </asp:DropDownList>
+         
+        &nbsp;&nbsp;&nbsp;
+         
+        Normbre:&nbsp;&nbsp;&nbsp;
+
+         <asp:TextBox ID="txtNombre" runat="server" Width="174px" 
+            ViewStateMode="Disabled"></asp:TextBox>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" 
+            onclick="btnBuscar_Click" ViewStateMode="Disabled" BackColor="#9999FF" BorderStyle="Double" Width="146px" />
+        &nbsp;&nbsp;&nbsp;
+        
+    
+    
+    </div>
+              
+
+    
+     
+
+     
+       
+       
     </form>
 </body>
 </html>
