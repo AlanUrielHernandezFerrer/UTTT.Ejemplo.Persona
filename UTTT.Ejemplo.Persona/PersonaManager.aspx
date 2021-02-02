@@ -40,7 +40,8 @@
 
     <title></title>
 </head>
-<body>
+<body style="background-color:#D6DBDF;">
+    
  
 
 
@@ -64,6 +65,10 @@
 
         </div>
         <div>
+            <center>
+            <asp:Label ID="lblMensaje" runat="server" BorderColor="Red" Visible="False" BackColor="Red" Font-Size="X-Large"></asp:Label>
+                <br />
+                </center>
 
         </div>
             <div>
@@ -140,7 +145,7 @@
              <asp:RegularExpressionValidator ID="RegularExpressionValidator2" 
             runat="server" ErrorMessage="Debe ingresar solo letras borre los espacios porfavor." 
             ControlToValidate="txtAPaterno" ValidationExpression="^[a-zA-Z]*$" 
-            ValidationGroup="SOLOLETRAS"></asp:RegularExpressionValidator>
+            ></asp:RegularExpressionValidator>
         </div>
         <div>
         
@@ -160,7 +165,7 @@
              <asp:RegularExpressionValidator ID="RegularExpressionValidator3" 
             runat="server" ErrorMessage="Debe ingresar solo letras borre los espacios porfavor." 
             ControlToValidate="txtAMaterno" ValidationExpression="^[a-zA-Z]*$" 
-            ValidationGroup="SOLOLETRAS"></asp:RegularExpressionValidator>
+            ></asp:RegularExpressionValidator>
         </div>
 
 
@@ -174,7 +179,15 @@
         </div>
 
         <div>
-            <asp:Calendar ID="dteCalendar" runat="server" style="margin-left: 390px" Width="226px"  ></asp:Calendar>
+            <asp:Calendar ID="dteCalendar" runat="server" style="margin-left: 390px" Width="330px" type="date" BackColor="White" BorderColor="Black" BorderStyle="Solid" CellSpacing="1" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="250px" NextPrevFormat="ShortMonth"  >
+                <DayHeaderStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" Height="8pt" />
+                <DayStyle BackColor="#CCCCCC" />
+                <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="White" />
+                <OtherMonthDayStyle ForeColor="#999999" />
+                <SelectedDayStyle BackColor="#333399" ForeColor="White" />
+                <TitleStyle BackColor="#333399" BorderStyle="Solid" Font-Bold="True" Font-Size="12pt" ForeColor="White" Height="12pt" />
+                <TodayDayStyle BackColor="#999999" ForeColor="White" />
+            </asp:Calendar>
         </div>
 
     
@@ -218,7 +231,9 @@
                 es obligatorio" ControlToValidate="txtRfc" ForeColor="Red" ></asp:RequiredFieldValidator>
            
 
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator8" runat="server" ControlToValidate="txtRfc" ErrorMessage="Escribe un Rfc valido" ValidationExpression="[A-Z,Ñ,&amp;]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?"></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator8" runat="server" 
+                ControlToValidate="txtRfc" ErrorMessage="Escribe un Rfc valido" 
+                ValidationExpression="^(([A-Z]|[a-z]|\s){1})(([A-Z]|[a-z]){3})([0-9]{6})((([A-Z]|[a-z]|[0-9]){3}))"></asp:RegularExpressionValidator>
            
 
             <br />
@@ -230,7 +245,6 @@
 
         </div>
         <div>
-            <asp:Label ID="lblMensaje" runat="server" BorderColor="Red" Visible="False"></asp:Label>
         </div>
     
     <div>
@@ -247,7 +261,6 @@
             onclick="btnCancelar_Click" ViewStateMode="Disabled" />
     
     </div>
-        <asp:Button ID="btnError" runat="server" Text="Generar un error" OnClick="btnError_Click" />
     </form>
 </body>
 </html>

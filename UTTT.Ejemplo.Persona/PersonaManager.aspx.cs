@@ -73,7 +73,7 @@ namespace UTTT.Ejemplo.Persona
                     if (this.idPersona == 0)
                     {
                         this.lblAccion.Text = "Agregar";
-                        DateTime tiempo = new DateTime((DateTime.Now.Year)-20, DateTime.Now.Month, DateTime.Now.Day);
+                        DateTime tiempo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                         this.dteCalendar.TodaysDate = tiempo;
                         this.dteCalendar.SelectedDate = tiempo;
                     }
@@ -302,6 +302,13 @@ namespace UTTT.Ejemplo.Persona
 
             //Nombre
 
+            string nombre = _persona.strNombre.Trim();
+            if (nombre.Length < 3)
+            {
+                _mensaje = "Debe de tener mas de 3 caracteres";
+                return false;
+            }
+
             if (_persona.strNombre.Equals(String.Empty))
             {
                 _mensaje = "El campo Nombre esta vacio";
@@ -313,6 +320,13 @@ namespace UTTT.Ejemplo.Persona
                 return false;
             }
             //Apaterno
+            string APaterno = _persona.strAPaterno.Trim();
+            if (APaterno.Length < 3)
+            {
+                _mensaje = "Debe de tener mas de 3 caracteres";
+                return false;
+            }
+
             if (_persona.strAPaterno.Equals(String.Empty))
             {
                 _mensaje = "El campo APaterno esta vacio";
@@ -324,6 +338,12 @@ namespace UTTT.Ejemplo.Persona
                 return false;
             }
             //Amaterno
+            string AMaterno = _persona.strAMaterno.Trim();
+            if (AMaterno.Length < 3)
+            {
+                _mensaje = "Debe de tener mas de 3 caracteres";
+                return false;
+            }
             if (_persona.strAMaterno.Equals(String.Empty))
             {
                 _mensaje = "El campo AMaterno esta vacio";
@@ -349,9 +369,20 @@ namespace UTTT.Ejemplo.Persona
                 return false;
             }
             //Codigo postal
+            int j = 0;
+            if (int.TryParse(_persona.intCodigoPostal.ToString(), out j) == false)
+            {
+                _mensaje = "La clave unica no acepta letras solo numeros";
+                return false;
+            }
             if (_persona.intCodigoPostal.Equals(String.Empty))
             {
                 _mensaje = "El campo Codigo postal esta vacio";
+                return false;
+            }
+            if (_persona.strCorreoElectronico.Length > 50)
+            {
+                _mensaje = "Rebasa el numero de caracteres de codigo postal";
                 return false;
             }
 
@@ -366,6 +397,7 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Rebasa el numero de caracteres de rfc";
                 return false;
             }
+           
 
 
             return true;
