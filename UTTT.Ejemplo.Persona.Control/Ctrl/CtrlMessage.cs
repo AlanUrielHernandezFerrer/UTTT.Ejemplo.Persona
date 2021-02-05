@@ -9,6 +9,7 @@ namespace UTTT.Ejemplo.Persona.Control.Ctrl
     {
         public static void showMessage(this System.Web.UI.Page _page, String _message)
         {
+            String mensaje = "Persona" + _message + "se agrego correctamente";
             _page.ClientScript.RegisterStartupScript(_page.GetType(),
                    Guid.NewGuid().ToString(),
                    "alert( '" + _message + "');", true);

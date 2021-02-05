@@ -80,6 +80,7 @@ namespace UTTT.Ejemplo.Persona
                     else
                     {
                         this.lblAccion.Text = "Editar";
+                        ddlSexo.Enabled = false;
                         this.txtNombre.Text = this.baseEntity.strNombre;
                         this.txtAPaterno.Text = this.baseEntity.strAPaterno;
                         this.txtAMaterno.Text = this.baseEntity.strAMaterno;
@@ -96,7 +97,7 @@ namespace UTTT.Ejemplo.Persona
                         this.txtCodigoPostal.Text = this.baseEntity.intCodigoPostal.ToString();
                         this.txtRfc.Text = this.baseEntity.strRfc;
 
-                        this.setItem(ref this.ddlSexo, baseEntity.CatSexo.strValor);
+                        this.setItemEditar(ref this.ddlSexo, baseEntity.CatSexo.strValor);
                     }                
                 }
 
@@ -113,9 +114,9 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
-     
 
 
+                this.lblFecha.Visible = false;
 
                 DateTime fechaNacimiento1 = this.dteCalendar.SelectedDate.Date;
                 DateTime fechaHoy = DateTime.Today;
@@ -125,10 +126,15 @@ namespace UTTT.Ejemplo.Persona
                 if (edad < 18)
                 {
                     this.showMessage("Eres menor de edad no puedes registrarte");
-        
+                    
+                    this.lblFecha.Visible = true;
+                    this.lblFecha.Text = "*Debido a tu fecha de nacimiento eres menor de edad y no puedes registrarte";
+
+
                 }
                 else
                 {
+                    this.lblFecha.Visible = false;
                     if (!Page.IsValid)
                     {
                         return;
@@ -137,6 +143,7 @@ namespace UTTT.Ejemplo.Persona
                     UTTT.Ejemplo.Linq.Data.Entity.Persona persona = new Linq.Data.Entity.Persona();
                     if (this.idPersona == 0)
                     {
+                        this.lblFecha.Visible = false;
 
                         persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
                         persona.strNombre = this.txtNombre.Text.Trim();
@@ -173,7 +180,7 @@ namespace UTTT.Ejemplo.Persona
                             this.lblMensaje.Visible = true;
                             return;
                         }
-
+                        this.lblFecha.Visible = false;
 
                         dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().InsertOnSubmit(persona);
                         dcGuardar.SubmitChanges();
@@ -183,12 +190,15 @@ namespace UTTT.Ejemplo.Persona
                     }
                     if (this.idPersona > 0)
                     {
+                      
                         persona = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().First(c => c.id == idPersona);
                         persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
                         persona.strNombre = this.txtNombre.Text.Trim();
                         persona.strAMaterno = this.txtAMaterno.Text.Trim();
                         persona.strAPaterno = this.txtAPaterno.Text.Trim();
                         persona.idCatSexo = int.Parse(this.ddlSexo.Text);
+                        DateTime fechaNacimiento = this.dteCalendar.SelectedDate.Date;
+                        persona.dteFechaNacimiento = fechaNacimiento;
                         persona.strCorreoElectronico = this.txtCorreoElectronico.Text.Trim();
                         persona.intCodigoPostal = int.Parse(this.txtCodigoPostal.Text);
                         persona.strRfc = this.txtRfc.Text.Trim();
@@ -234,6 +244,7 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
+                
                 int idSexo = int.Parse(this.ddlSexo.Text);
                 Expression<Func<CatSexo, bool>> predicateSexo = c => c.id == idSexo;
                 predicateSexo.Compile();
@@ -260,6 +271,20 @@ namespace UTTT.Ejemplo.Persona
                 if (item.Value == _value)
                 {
                     item.Selected = true;
+                    
+                    break;
+                }
+            }
+            _control.Items.FindByText(_value).Selected = true;
+        }
+        public void setItemEditar(ref DropDownList _control, String _value)
+        {
+            foreach (ListItem item in _control.Items)
+            {
+                if (item.Value == _value)
+                {
+                    item.Enabled = false;
+
                     break;
                 }
             }
@@ -267,7 +292,7 @@ namespace UTTT.Ejemplo.Persona
         }
 
 
-        
+
 
         #region Metodos
         /// <summary>
@@ -293,7 +318,7 @@ namespace UTTT.Ejemplo.Persona
                 return false;
             }
       
-            if (int.Parse(_persona.strClaveUnica) < 1 || int.Parse(_persona.strClaveUnica) > 999)
+            if (int.Parse(_persona.strClaveUnica) < 1 || int.Parse(_persona.strClaveUnica) > 1000)
             {
                 _mensaje = "No esta dentro del rango  del 1 al 1000";
                 return false;
@@ -302,90 +327,91 @@ namespace UTTT.Ejemplo.Persona
             string nombre = _persona.strNombre.Trim();
             if (nombre.Length < 3)
             {
-                _mensaje = "Debe de tener mas de 3 caracteres";
+                _mensaje = "Debe de tener mas de 3 caracteres verifique porfavor";
                 return false;
             }
 
             if (_persona.strNombre.Equals(String.Empty))
             {
-                _mensaje = "El campo Nombre esta vacio";
+                _mensaje = "El campo Nombre esta vacio verifique porfavor";
                 return false;
             }
             if (_persona.strNombre.Length > 50)
             {
-                _mensaje = "Rebasa el numero de caracteres de nombre";
+                _mensaje = "Rebasa el numero de caracteres en el campo de nombre";
                 return false;
             }
 
             string APaterno = _persona.strAPaterno.Trim();
             if (APaterno.Length < 3)
             {
-                _mensaje = "Debe de tener mas de 3 caracteres";
+                _mensaje = "Debe de tener mas de 3 caracteres en el campo";
                 return false;
             }
 
             if (_persona.strAPaterno.Equals(String.Empty))
             {
-                _mensaje = "El campo APaterno esta vacio";
+                _mensaje = "El campo APaterno esta vacio verifique porvafor";
                 return false;
             }
             if (_persona.strAPaterno.Length > 50)
             {
-                _mensaje = "Rebasa el numero de caracteres de Apaterno";
+                _mensaje = "Rebasa el numero de caracteres en el campo de Apaterno";
                 return false;
             }
 
             string AMaterno = _persona.strAMaterno.Trim();
             if (AMaterno.Length < 3)
             {
-                _mensaje = "Debe de tener mas de 3 caracteres";
+                _mensaje = "Debe de tener mas de 3 caracteres en el campo";
                 return false;
             }
             if (_persona.strAMaterno.Equals(String.Empty))
             {
-                _mensaje = "El campo AMaterno esta vacio";
+                _mensaje = "El campo AMaterno esta vacio verifique porfavor";
                 return false;
             }
             if (_persona.strAMaterno.Length > 50)
             {
-                _mensaje = "Rebasa el numero de caracteres de AMaterno";
+                _mensaje = "Rebasa el numero de caracteres en el campo de AMaterno";
                 return false;
             }
         
             if (_persona.strCorreoElectronico.Equals(String.Empty))
             {
-                _mensaje = "El campo Correo electronico esta vacio";
+                _mensaje = "El campo Correo electronico esta vacio verifique porfavor";
                 return false;
             }
             if (_persona.strCorreoElectronico.Length > 50)
             {
-                _mensaje = "Rebasa el numero de caracteres de correo electronico";
+                _mensaje = "Rebasa el numero de caracteres de correo electronico verifique porfavor";
                 return false;
-            }   int j = 0;
+            }  
+            int j = 0;
             if (int.TryParse(_persona.intCodigoPostal.ToString(), out j) == false)
             {
-                _mensaje = "La clave unica no acepta letras solo numeros";
+                _mensaje = "El codigo postal no acepta letras solo numeros verifique porfavor";
                 return false;
             }
             if (_persona.intCodigoPostal.Equals(String.Empty))
             {
-                _mensaje = "El campo Codigo postal esta vacio";
+                _mensaje = "El campo Codigo postal esta vacio verifique porfavor";
                 return false;
             }
-            if (_persona.strCorreoElectronico.Length > 50)
-            {
-                _mensaje = "Rebasa el numero de caracteres de codigo postal";
-                return false;
-            }
+            //if (_persona.intCodigoPostal.Length > 50)
+            //{
+            //    _mensaje = "Rebasa el numero de caracteres en el campo de codigo postal";
+            //    return false;
+            //}
 
             if (_persona.strRfc.Equals(String.Empty))
             {
-                _mensaje = "El campo Rfc esta vacio";
+                _mensaje = "El campo Rfc esta vacio verifique porfavor";
                 return false;
             }
             if (_persona.strRfc.Length > 50)
             {
-                _mensaje = "Rebasa el numero de caracteres de rfc";
+                _mensaje = "Rebasa el numero de caracteres en el campo de rfc";
                 return false;
             }
            
@@ -516,9 +542,9 @@ namespace UTTT.Ejemplo.Persona
         #endregion
         protected void dteCalendar_SelectionChanged(object sender, EventArgs e)
         {
+            this.lblFecha.Visible = false;
 
-            
-            
+
         }
 
         protected void btnError_Click(object sender, EventArgs e)

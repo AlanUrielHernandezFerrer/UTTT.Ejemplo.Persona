@@ -154,7 +154,7 @@ namespace UTTT.Ejemplo.Persona
                 this.session.Pantalla = String.Empty;
                 this.session.Pantalla = "~/PersonaManager.aspx";
                 this.Response.Redirect(this.session.Pantalla, false);
-
+                this.showMessage("El registro se edito corecctamente.");
             }
             catch (Exception _e)
             {
@@ -171,7 +171,7 @@ namespace UTTT.Ejemplo.Persona
                     c => c.id == _idPersona);
                 dcDelete.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().DeleteOnSubmit(persona);
                 dcDelete.SubmitChanges();
-                this.showMessage("El registro se agrego correctamente.");
+                this.showMessage("El registro se elimino corecctamente.");
                 this.DataSourcePersona.RaiseViewChanged();                
             }
             catch (Exception _e)

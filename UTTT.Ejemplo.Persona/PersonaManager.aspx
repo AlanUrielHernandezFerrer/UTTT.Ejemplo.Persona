@@ -26,11 +26,7 @@
     }
 </script>
 
-<script>
- function VerificarCantidad(sender, args) {
-                args.IsValid = (args.Value.length >= 3);
-            }  
-</script>
+
     
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -109,6 +105,10 @@
                 Width="249px"  MaxLength="15" style="margin-left: 5px"   onkeypress="return isNumberKey(event)" ></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*El campo nombre 
                 es obligatorio" ControlToValidate="txtNombre" ForeColor="Red"></asp:RequiredFieldValidator>
+                       <asp:RegularExpressionValidator ID="RegularExpressionValidator1" 
+            runat="server" ErrorMessage="Debe ingresar solo letras" 
+            ControlToValidate="txtNombre" ValidationExpression="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$" 
+            ></asp:RegularExpressionValidator>
                
         
        
@@ -123,7 +123,8 @@
         </div>
                          <asp:Image ID="Image2" runat="server" AlternateText="Imagen no disponible" Height="369px" ImageAlign="Right" ImageUrl="~/Images/otro.png" Width="290px" style="margin-left: 0px" />
         <div> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A Paterno:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <asp:TextBox ID="txtAPaterno" runat="server" onkeypress="return isNumberKey(event)" 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A Paterno:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:TextBox ID="txtAPaterno" runat="server" onkeypress="return isNumberKey(event)" 
                 Width="249px" MinLength="3" MaxLength="15" style="margin-left: 7px" ></asp:TextBox>
 
             
@@ -131,8 +132,8 @@
                 es obligatorio" ControlToValidate="txtAPaterno" ForeColor="Red"></asp:RequiredFieldValidator>
 
              <asp:RegularExpressionValidator ID="RegularExpressionValidator2" 
-            runat="server" ErrorMessage="Debe ingresar solo letras borre los espacios porfavor." 
-            ControlToValidate="txtAPaterno" ValidationExpression="^[a-zA-Z]*$" 
+            runat="server" ErrorMessage="Debe ingresar solo letras o borre los espacios porfavor." 
+            ControlToValidate="txtAPaterno" ValidationExpression="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$" 
             ></asp:RegularExpressionValidator>
             <p style="margin-left: 80px; width: 874px;">
 
@@ -143,8 +144,8 @@
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="*El campo A Materno 
                 es obligatorio" ControlToValidate="txtAPaterno" ForeColor="Red"></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator3" 
-            runat="server" ErrorMessage="Debe ingresar solo letras borre los espacios porfavor." 
-            ControlToValidate="txtAMaterno" ValidationExpression="^[a-zA-Z]*$" 
+            runat="server" ErrorMessage="Debe ingresar solo letras borre o los espacios porfavor." 
+            ControlToValidate="txtAMaterno" ValidationExpression="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$" 
             ></asp:RegularExpressionValidator>
                 <br />
             </p>
@@ -154,7 +155,7 @@
                     <label for="lblFecha">
             Fecha de nacimiento:</label>
                 </p>
-                <asp:Calendar ID="dteCalendar" runat="server" style="margin-left: 137px" Width="330px" type="date" BackColor="White" BorderColor="Black" BorderStyle="Solid" CellSpacing="1" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="250px" NextPrevFormat="ShortMonth"  >
+                <asp:Calendar ID="dteCalendar" runat="server" title="Calendar" OnSelectionChanged="dteCalendar_SelectionChanged" style="margin-left: 137px" Width="330px" type="date" BackColor="White" BorderColor="Black" BorderStyle="Solid" CellSpacing="1" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="250px" NextPrevFormat="ShortMonth"  >
                     <DayHeaderStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" Height="8pt" />
                     <DayStyle BackColor="#CCCCCC" />
                     <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="White" />
@@ -163,6 +164,11 @@
                     <TitleStyle BackColor="#333399" BorderStyle="Solid" Font-Bold="True" Font-Size="12pt" ForeColor="White" Height="12pt" />
                     <TodayDayStyle BackColor="#999999" ForeColor="White" />
                 </asp:Calendar>
+
+
+               <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ErrorMessage="La fecha de nacimiento es obligatorio" ControlToValidate="Calendar"></asp:RequiredFieldValidator>--%>
+                <asp:Label ID="lblFecha" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
+
             </div>
             <div>
             </div>
@@ -178,7 +184,7 @@
             </div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="lblCodigopostal" runat="server" Text="Codigo postal:"></asp:Label>
-            <asp:TextBox ID="txtCodigoPostal" runat="server" style="margin-left: 57px" MinLength="3" MaxLength="20" type="number" Width="175px"></asp:TextBox>
+            <asp:TextBox ID="txtCodigoPostal" runat="server" style="margin-left: 60px" MinLength="3" MaxLength="20" type="number" Width="175px"></asp:TextBox>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="*El campo Codigo postal 
                 es obligatorio" ControlToValidate="txtCodigoPostal" ForeColor="Red" ></asp:RequiredFieldValidator>
             <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ControlToValidate="txtCodigoPostal" 
