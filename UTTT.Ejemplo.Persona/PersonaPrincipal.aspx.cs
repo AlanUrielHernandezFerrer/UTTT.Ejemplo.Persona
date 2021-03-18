@@ -43,6 +43,17 @@ namespace UTTT.Ejemplo.Persona
                     this.ddlSexo.DataValueField = "id";
                     this.ddlSexo.DataSource = lista;
                     this.ddlSexo.DataBind();
+
+                    //CatEstado civil
+                    List<CatEstadoCivil> listaCatEstadoCivil = dcTemp.GetTable<CatEstadoCivil>().ToList();
+                    CatEstadoCivil TempEstadoCivil = new CatEstadoCivil();
+                    TempEstadoCivil.id = -1;
+                    TempEstadoCivil.strValor = "Todos";
+                    listaCatEstadoCivil.Insert(0, TempEstadoCivil);
+                    this.ddlEstadoCivil.DataTextField = "strValor";
+                    this.ddlEstadoCivil.DataValueField = "id";
+                    this.ddlEstadoCivil.DataSource = listaCatEstadoCivil;
+                    this.ddlEstadoCivil.DataBind();
                 }
             }
             catch (Exception _e)
@@ -87,6 +98,7 @@ namespace UTTT.Ejemplo.Persona
                 DataContext dcConsulta = new DcGeneralDataContext();
                 bool nombreBool = false;
                 bool sexoBool = false;
+                bool estadoCivil = false;
                 if (!this.txtNombre.Text.Equals(String.Empty))
                 {
                     nombreBool = true;
@@ -95,13 +107,25 @@ namespace UTTT.Ejemplo.Persona
                 {
                     sexoBool = true;
                 }
+                if (this.ddlEstadoCivil.Text != "-1")
+                {
+                    estadoCivil = true;
+                }
 
-                Expression<Func<UTTT.Ejemplo.Linq.Data.Entity.Persona, bool>> 
-                    predicate =
-                    (c =>
-                    ((sexoBool) ? c.idCatSexo == int.Parse(this.ddlSexo.Text) : true) &&             
-                    ((nombreBool) ? (((nombreBool) ? c.strNombre.Contains(this.txtNombre.Text.Trim()) : false)) : true)
-                    );
+                Expression<Func<UTTT.Ejemplo.Linq.Data.Entity.Persona, bool>>
+                   predicate =
+                   (c =>
+                   ((sexoBool) ? c.idCatSexo == int.Parse(this.ddlSexo.Text) : true) &&
+                   ((estadoCivil) ? c.idCatEstadoCivil == int.Parse(this.ddlEstadoCivil.Text) : true) &&
+                   ((nombreBool) ? (((nombreBool) ? c.strNombre.Contains(this.txtNombre.Text.Trim()) : false)) : true)
+                   );
+
+                //Expression<Func<UTTT.Ejemplo.Linq.Data.Entity.Persona, bool>> 
+                //    predicate =
+                //    (c =>
+                //    ((sexoBool) ? c.idCatSexo == int.Parse(this.ddlSexo.Text) : true) &&             
+                //    ((nombreBool) ? (((nombreBool) ? c.strNombre.Contains(this.txtNombre.Text.Trim()) : false)) : true)
+                //    );
 
                 predicate.Compile();
 
@@ -199,5 +223,11 @@ namespace UTTT.Ejemplo.Persona
         }
 
         #endregion
+
+        protected void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+            //ScriptManager.RegisterClientScriptBlock(UpdatePanel2, this.GetType(), "", "alert('" + txtNombre.Text + "')", true);
+           
+        }
     }
 }

@@ -14,6 +14,11 @@ using UTTT.Ejemplo.Persona.Control;
 using UTTT.Ejemplo.Persona.Control.Ctrl;
 using System.Windows.Forms;
 using EASendMail;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Services;
+using System.Web.Script.Serialization;
 
 #endregion
 
@@ -58,6 +63,7 @@ namespace UTTT.Ejemplo.Persona
                     {
                         this.session.Parametros.Add("baseEntity", this.baseEntity);
                     }
+                   
                     List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().ToList();
                     CatSexo catTemp = new CatSexo();
                     catTemp.id = -1;
@@ -68,36 +74,69 @@ namespace UTTT.Ejemplo.Persona
                     this.ddlSexo.DataSource = lista;
                     this.ddlSexo.DataBind();
 
+                    //Cat estado civil
+                    List<CatEstadoCivil> listaEstadoCivil = dcGlobal.GetTable<CatEstadoCivil>().ToList();
+                    CatEstadoCivil catEstadoCivilTemp = new CatEstadoCivil();
+                    catEstadoCivilTemp.id = -1;
+                    catEstadoCivilTemp.strValor = "Seleccionar";
+                    listaEstadoCivil.Insert(0, catEstadoCivilTemp);
+                    this.ddlEstadoCivil.DataTextField = "strValor";
+                    this.ddlEstadoCivil.DataValueField = "id";
+                    this.ddlEstadoCivil.DataSource = listaEstadoCivil;
+                    this.ddlEstadoCivil.DataBind();
+                    //cat Sexo
+
                     this.ddlSexo.SelectedIndexChanged += new EventHandler(ddlSexo_SelectedIndexChanged);
                     this.ddlSexo.AutoPostBack = true;
+                    //Cat estado civil
+                    this.ddlEstadoCivil.SelectedIndexChanged += new EventHandler(ddlEstadoCivil_SelectedIndexChanged);
+                    this.ddlEstadoCivil.AutoPostBack = true;
+
+                    
+
+
                     if (this.idPersona == 0)
                     {
+
+                     
+
                         this.lblAccion.Text = "Agregar";
                         DateTime tiempo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-                        this.dteCalendar.TodaysDate = tiempo;
-                        this.dteCalendar.SelectedDate = tiempo;
+                         //TextBox1.Text = tiempo.Date.ToString("dd/MM/yyyy");
+                        this.TextBox1.Text = Convert.ToString(tiempo.ToShortDateString());
+                        this.CalendarExtender.SelectedDate = tiempo;
+                       
                     }
                     else
                     {
                         this.lblAccion.Text = "Editar";
-                        ddlSexo.Enabled = false;
+                        
                         this.txtNombre.Text = this.baseEntity.strNombre;
                         this.txtAPaterno.Text = this.baseEntity.strAPaterno;
                         this.txtAMaterno.Text = this.baseEntity.strAMaterno;
                         this.txtClaveUnica.Text = this.baseEntity.strClaveUnica;
                        
-                        DateTime? fechaNacimiento = this.baseEntity.dteFechaNacimiento;
+                        DateTime fechaNacimiento = (DateTime)this.baseEntity.dteFechaNacimiento;
+                       
                         if (fechaNacimiento != null)
 
                         {
-                            this.dteCalendar.TodaysDate = (DateTime)fechaNacimiento;
-                            this.dteCalendar.SelectedDate = (DateTime)fechaNacimiento;
+                            
+                            //this.TextBox1.Text = Convert.ToString((DateTime)fechaNacimiento);
+                            //this.CalendarExtender.SelectedDate = (DateTime)fechaNacimiento;
+                            TextBox1.Text = fechaNacimiento.Date.ToString("dd/MM/yyyy");
                         }
                         this.txtCorreoElectronico.Text = this.baseEntity.strCorreoElectronico;
                         this.txtCodigoPostal.Text = this.baseEntity.intCodigoPostal.ToString();
                         this.txtRfc.Text = this.baseEntity.strRfc;
+                        //Cat estado civil
+                        this.ddlEstadoCivil.DataSource = listaEstadoCivil;
+                        this.ddlEstadoCivil.DataBind();
+
+                        this.setItem(ref this.ddlEstadoCivil, baseEntity.CatEstadoCivil.strValor);
 
                         this.setItemEditar(ref this.ddlSexo, baseEntity.CatSexo.strValor);
+                        this.setItemEditar(ref this.ddlEstadoCivil, baseEntity.CatEstadoCivil.strValor);
                     }                
                 }
 
@@ -118,10 +157,13 @@ namespace UTTT.Ejemplo.Persona
 
                 this.lblFecha.Visible = false;
 
-                DateTime fechaNacimiento1 = this.dteCalendar.SelectedDate.Date;
+                //DateTime fechaNacimiento1 = this.dteCalendar.SelectedDate.Date;
+                //DateTime fechaHoy = DateTime.Today;
+                //int edad = fechaHoy.Year - fechaNacimiento1.Year;
+                DateTime fecha = Convert.ToDateTime(TextBox1.Text);
                 DateTime fechaHoy = DateTime.Today;
-                int edad = fechaHoy.Year - fechaNacimiento1.Year;
-                if (fechaHoy < fechaNacimiento1.AddYears(edad)) edad--;
+                int edad = fechaHoy.Year - fecha.Year;
+                if (fechaHoy < fecha.AddYears(edad)) edad--;
 
                 if (edad < 18)
                 {
@@ -149,8 +191,20 @@ namespace UTTT.Ejemplo.Persona
                         persona.strNombre = this.txtNombre.Text.Trim();
                         persona.strAMaterno = this.txtAMaterno.Text.Trim();
                         persona.strAPaterno = this.txtAPaterno.Text.Trim();
+
+
+                        // Bind the data to the control.
+
+
+                        // Set the default selected item, if desired.
+                        //ddlSexo.SelectedIndex = idPersona;
+                        //persona.idCatSexo = int.Parse(this.ddlSexo.ID.ToLower());
+
+                        //persona.idCatSexo = int.Parse(this.ddlSexo.Items.Count.ToString());
+                        persona.idCatEstadoCivil = int.Parse(this.ddlEstadoCivil.Text);
+                        
                         persona.idCatSexo = int.Parse(this.ddlSexo.Text);
-                        DateTime fechaNacimiento = this.dteCalendar.SelectedDate.Date;
+                        DateTime fechaNacimiento = Convert.ToDateTime(TextBox1.Text);
                         persona.dteFechaNacimiento = fechaNacimiento;
 
                         persona.strCorreoElectronico = this.txtCorreoElectronico.Text.Trim();
@@ -197,7 +251,8 @@ namespace UTTT.Ejemplo.Persona
                         persona.strAMaterno = this.txtAMaterno.Text.Trim();
                         persona.strAPaterno = this.txtAPaterno.Text.Trim();
                         persona.idCatSexo = int.Parse(this.ddlSexo.Text);
-                        DateTime fechaNacimiento = this.dteCalendar.SelectedDate.Date;
+                        persona.idCatEstadoCivil = int.Parse(this.ddlEstadoCivil.Text);
+                        DateTime fechaNacimiento = Convert.ToDateTime(TextBox1.Text);
                         persona.dteFechaNacimiento = fechaNacimiento;
                         persona.strCorreoElectronico = this.txtCorreoElectronico.Text.Trim();
                         persona.intCodigoPostal = int.Parse(this.txtCodigoPostal.Text);
@@ -212,14 +267,14 @@ namespace UTTT.Ejemplo.Persona
             catch (Exception _e)
             {
                 this.showMessageException(_e.Message);
-           
+
                 var mensaje = "Error message: " + _e.Message;
 
                 if (_e.InnerException != null)
                 {
                     mensaje = mensaje + " Inner exception: " + _e.InnerException.Message;
                 }
-         
+
                 mensaje = mensaje + " Stack trace: " + _e.StackTrace;
                 this.Response.Redirect("~/ErrorPage.aspx", false);
 
@@ -244,14 +299,14 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
-                
+
                 int idSexo = int.Parse(this.ddlSexo.Text);
                 Expression<Func<CatSexo, bool>> predicateSexo = c => c.id == idSexo;
                 predicateSexo.Compile();
                 List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().Where(predicateSexo).ToList();
-                CatSexo catTemp = new CatSexo();            
+                CatSexo catTemp = new CatSexo();
                 this.ddlSexo.DataTextField = "strValor";
-                this.ddlSexo.DataValueField = "id";
+                this.ddlSexo.DataValueField = "id"; 
                 this.ddlSexo.DataSource = lista;
                 this.ddlSexo.DataBind();
             }
@@ -259,11 +314,35 @@ namespace UTTT.Ejemplo.Persona
             {
                 this.showMessage("Ha ocurrido un error inesperado");
             }
+
+            //DataTable dt = new DataTable();
+            //List<CatSexo> objCat = new List<CatSexo>();
+            //using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["conStr"].ConnectionString))
+            //{
+            //    using (SqlCommand cmd = new SqlCommand("SELECT id,strValor FROM CatSexo", con))
+            //    {
+            //        con.Open();
+            //        SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //        da.Fill(dt);
+            //        if (dt.Rows.Count > 0)
+            //        {
+            //            for (int i = 0; i < dt.Rows.Count; i++)
+            //            {
+            //                objCat.Add(new CatSexo
+            //                {
+            //                    CatId = dt.Rows[i]["id"].ToString(),
+            //                    CatValor = dt.Rows[i]["strValor"].ToString()
+            //                });
+            //            }
+            //        }
+            //        //return objCat;
+            //    }
+            //}
         }
 
         #endregion
 
-      
+
         public void setItem(ref DropDownList _control, String _value)
         {
             foreach (ListItem item in _control.Items)
@@ -281,7 +360,7 @@ namespace UTTT.Ejemplo.Persona
         {
             foreach (ListItem item in _control.Items)
             {
-                if (item.Value == _value)
+                if (item.Value!= _value)
                 {
                     item.Enabled = false;
 
@@ -538,6 +617,111 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
+        //public class CatSexo
+        //{
+
+
+        //    public int id { get; set; }
+        //    public string strValor { get; set; }
+
+        //}
+        //[WebMethod]
+        //public static List<CatSexo> PopulateDropDownList()
+        //{
+        //    DataTable dt = new DataTable();
+        //    List<CatSexo> objCat = new List<CatSexo>();
+        //    using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["conStr"].ConnectionString))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand("SELECT id,strValor FROM CatSexo", con))
+        //        {
+        //            con.Open();
+        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //            da.Fill(dt);
+        //            if (dt.Rows.Count > 0)
+        //            {
+        //                for (int i = 0; i < dt.Rows.Count; i++)
+        //                {
+        //                    objCat.Add(new CatSexo
+        //                    {
+        //                        Convert.ToInt32(id) = dt.Rows[i]["id"].ToString(),
+        //                        strValor = dt.Rows[i]["strValor"].ToString()
+        //                    });
+        //                }
+        //            }
+        //            return objCat;
+        //        }
+        //    }
+        //}
+
+        //[WebMethod]
+        //public static string BindDropdownlist()
+        //{
+        //    SqlConnection con = new SqlConnection(@"Data Source=ALAN;Initial Catalog=Persona;Integrated Security=True");
+
+        //    DataTable dt = new DataTable();
+
+        //    SqlDataAdapter da = new SqlDataAdapter("SELECT id,strValor FROM CatSexo", con);
+
+        //    con.Open();
+        //    da.Fill(dt);
+        //    con.Close();
+
+        //    List<CatSexo> liststudent = new List<CatSexo>();
+
+
+
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        for (int i = 0; i < dt.Rows.Count; i++)
+        //        {
+        //            CatSexo objst = new CatSexo();
+        //            objst.id = Convert.ToInt32(dt.Rows[i]["id"]);
+        //            objst.strValor = Convert.ToString(dt.Rows[i]["strValor"]);
+        //            liststudent.Insert(i, objst);
+        //        }
+
+
+
+        //    }
+
+        //    JavaScriptSerializer jscript = new JavaScriptSerializer();
+        //    return jscript.Serialize(liststudent);
+        //}
+
+        //[WebMethod]
+        //public static List<CatSexo> PopulateDropDownList ()
+        //{
+        //    DataTable dt = new DataTable();
+        //    List<CatSexo> objCat = new List<CatSexo>();
+        //    using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["conStr"].ConnectionString))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand("SELECT id,strValor FROM CatSexo", con))
+        //        {
+        //            con.Open();
+        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //            da.Fill(dt);
+        //            if (dt.Rows.Count > 0)
+        //            {
+        //                for (int i = 0; i < dt.Rows.Count; i++)
+        //                {
+        //                    CatSexo objst = new CatSexo();
+        //                    objst.id = Convert.ToInt32(dt.Rows[i]["id"]);
+        //                    objst.strValor = Convert.ToString(dt.Rows[i]["strValor"]);
+        //                    objCat.Insert(i, objst);
+        //                }
+                        
+        //            }
+        //        }
+        //        return objCat;
+        //    }
+        //}
+        
+
+        //public class CatSexo
+        //{
+        //    public int id  { get; set; }
+        //    public string strValor { get; set; }
+        //}
 
         #endregion
         protected void dteCalendar_SelectionChanged(object sender, EventArgs e)
@@ -550,6 +734,27 @@ namespace UTTT.Ejemplo.Persona
         protected void btnError_Click(object sender, EventArgs e)
         {
             int hola = 0;
+        }
+
+        protected void ddlEstadoCivil_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                int idEstadoCivil = int.Parse(this.ddlEstadoCivil.Text);
+                Expression<Func<CatEstadoCivil, bool>> predicateEstadoCivil = c => c.id == idEstadoCivil;
+                predicateEstadoCivil.Compile();
+                List<CatEstadoCivil> lista = dcGlobal.GetTable<CatEstadoCivil>().Where(predicateEstadoCivil).ToList();
+                CatEstadoCivil catEstadoCivilTemp = new CatEstadoCivil();
+                this.ddlEstadoCivil.DataTextField = "strValor";
+                this.ddlEstadoCivil.DataValueField = "id";
+                this.ddlEstadoCivil.DataSource = lista;
+                this.ddlEstadoCivil.DataBind();
+            }
+            catch (Exception)
+            {
+                this.showMessage("Ha ocurrido un error inesperado");
+            }
         }
     }
 }
