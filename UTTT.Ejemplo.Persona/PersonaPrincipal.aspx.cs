@@ -28,8 +28,17 @@ namespace UTTT.Ejemplo.Persona
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if (Session["strNombre"] == null)
+            {
+                Response.Redirect("Login.aspx");
+
+                lblUserDetails.Text = "strNombre : " + Session["strNombre"];
+            }
+
             try
             {
+
                 Response.Buffer = true;
                 DataContext dcTemp = new DcGeneralDataContext();
                 if (!this.IsPostBack)
@@ -228,6 +237,15 @@ namespace UTTT.Ejemplo.Persona
         {
             //ScriptManager.RegisterClientScriptBlock(UpdatePanel2, this.GetType(), "", "alert('" + txtNombre.Text + "')", true);
            
+        }
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Response.Redirect("Login.aspx");
+        }
+        protected void btnMenu_Click(object sender, EventArgs e)
+        {
+            this.Response.Redirect("~/Menu.aspx");
         }
     }
 }

@@ -5,11 +5,7 @@ using System.Text;
 
 namespace UTTT.Ejemplo.Linq.Data.Entity
 {
-    public partial class Persona
+   public partial class Usuario
     {
-        public override string ToString()
-        {
-            return this.strNombre;
-        }
     }
 }

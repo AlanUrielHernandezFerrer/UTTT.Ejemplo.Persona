@@ -109,10 +109,17 @@
   </div>
     </nav>
 
+    
+
 
 
 
     <form id="form1" runat="server">
+              <div class="align-content-end d-grid gap-2 d-md-flex justify-content-md-end">
+          
+            <asp:Label ID="lblUserDetails" runat="server" Text=""></asp:Label>
+            <asp:Button ID="btnLogout" runat="server" Text="Cerrar sesion"   class="btn btn-danger" OnClick="btnLogout_Click"/>
+        </div>
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
 

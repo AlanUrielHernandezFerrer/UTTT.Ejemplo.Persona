@@ -40,8 +40,16 @@ namespace UTTT.Ejemplo.Persona
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["strNombre"] == null)
+            {
+                Response.Redirect("Login.aspx");
+
+                lblUserDetails.Text = "strNombre : " + Session["strNombre"];
+            }
             try
             {
+              
+
                 this.Response.Buffer = true;
                 this.session = (SessionManager)this.Session["SessionManager"];
                 this.idPersona = this.session.Parametros["idPersona"] != null ?
@@ -63,7 +71,7 @@ namespace UTTT.Ejemplo.Persona
                     {
                         this.session.Parametros.Add("baseEntity", this.baseEntity);
                     }
-                   
+                    this.btnLogout.Visible = false;
                     List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().ToList();
                     CatSexo catTemp = new CatSexo();
                     catTemp.id = -1;
@@ -368,6 +376,11 @@ namespace UTTT.Ejemplo.Persona
                 }
             }
             _control.Items.FindByText(_value).Selected = true;
+        }
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Response.Redirect("Login.aspx");
         }
 
 

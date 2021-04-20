@@ -9,7 +9,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <title>Persona Principal</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
@@ -60,20 +60,27 @@
     <nav class="navbar navbar-dark bg-primary">
   <div class="container-fluid">
       Persona
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button runat="server" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
     </div>
   </div>
 </nav>
+   
+     
     <form id="form1" runat="server">
+          <div class="align-content-end d-grid gap-2 d-md-flex justify-content-md-end">
+          
+             <asp:Label ID="lblUserDetails" runat="server" Text=""></asp:Label>
+            <asp:Button ID="btnLogout" runat="server" Text="Cerrar sesion"   class="btn btn-danger" OnClick="btnLogout_Click"/>
+        </div>
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
 
         <div class="mb-3 container-fluid" style="color: #000000; font-size: medium; font-family: Arial; font-weight: bold">
             
-   <h1> Persona principal</h1>
+  <h1>Persona principal</h1>
         </div>
         <div>
 
@@ -81,7 +88,7 @@
             <div class="container">
                 <asp:Button ID="btnAgregar" runat="server" Text="Agregar persona" type="button"
                     OnClick="btnAgregar_Click" ViewStateMode="Disabled" class="btn btn-primary" BorderStyle="Double" />
-                 
+                 <asp:Button ID="btnMenu" runat="server" Text="Menu principal"   class="btn btn-info" OnClick="btnMenu_Click"/>
             </div>
             <div class="container">
 
@@ -102,6 +109,7 @@
             <div class="container">
                
                 <asp:Label ID="Label3" runat="server" Text="Nombre"></asp:Label>
+
                 <asp:UpdatePanel ID="PtxtName" runat="server">
                             <ContentTemplate>
                                 <input type="submit" name="btnTrick" id="btnTrick" style="display:none;"/>
@@ -109,15 +117,6 @@
                         </asp:UpdatePanel>
                 <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" Width="253px" AutoPostBack="True" OnTextChanged="txtNombre_TextChanged" 
                             ViewStateMode="Disabled"></asp:TextBox>
-                
-                
-                   
-                        
-
-                   
-                  
-               
-
                 <br />
                 <asp:Button ID="btnBuscar" runat="server" Text="Buscar" type="button"
                     OnClick="btnBuscar_Click" ViewStateMode="Disabled" CssClass="btn btn-secondary" BorderStyle="Double" Width="146px" />
@@ -203,6 +202,7 @@
             </div>
         </div>
         <asp:LinqDataSource ID="DataSourcePersona" runat="server"
+           
             ContextTypeName="UTTT.Ejemplo.Linq.Data.Entity.DcGeneralDataContext"
             OnSelecting="DataSourcePersona_Selecting"
             Select="new (strNombre, strAPaterno, strAMaterno, CatSexo, strClaveUnica,id)"
