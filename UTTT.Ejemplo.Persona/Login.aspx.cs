@@ -29,7 +29,7 @@ namespace UTTT.Ejemplo.Persona
             using (SqlConnection sqlCon = new SqlConnection("Data Source = PersonaBD.mssql.somee.com; Initial Catalog = PersonaBD; User ID = alanuriel2000_SQLLogin_1; Password = vsq1vk5dsk"))
                
             {
-                string query = "SELECT COUNT(1) FROM USUARIO WHERE strNombre=@strNombre AND strContrasenia=@strcontrasenia";
+                string query = "SELECT COUNT(1) FROM USUARIO WHERE strNombre=@strNombre AND strContrasenia=@strcontrasenia AND idCatUsuario=1";
                 SqlCommand sqlcmd = new SqlCommand(query, sqlCon);
 
                 sqlcmd.Parameters.AddWithValue("@strNombre", txtUser.Text.Trim());

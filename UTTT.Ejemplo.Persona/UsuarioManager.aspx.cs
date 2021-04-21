@@ -305,6 +305,8 @@ namespace UTTT.Ejemplo.Persona
                     DateTime fechaNacimiento = Convert.ToDateTime(TextBox1.Text);
                     usuario.dteFechaIngreso = fechaNacimiento;
                     usuario.strNombre = this.txtNombreUsuario.Text.Trim();
+                    usuario.idCatUsuario = int.Parse(this.ddlCatEstado.Text);
+                  
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
                     this.Response.Redirect("~/UsuarioPrincipal.aspx", false);

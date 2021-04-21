@@ -104,7 +104,7 @@
                 <br />
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator9" runat="server" ErrorMessage="Formato incorecto de la fecha"  ControlToValidate="textBox1" ValidationExpression="^\d{1,2}\/\d{1,2}\/\d{2,4}$"></asp:RegularExpressionValidator>
                   
-                 <ajaxToolkit:CalendarExtender ID="CalendarExtender" runat="server" Format="dd/MM/yyyy" PopupPosition="BottomRight" BehaviorID="CalendarExtender" PopupButtonID="TextBox1" TargetControlID="TextBox1" />
+                 <ajaxToolkit:CalendarExtender ID="CalendarExtender" runat="server" Format="MM/dd/yyyy" PopupPosition="BottomRight" BehaviorID="CalendarExtender" PopupButtonID="TextBox1" TargetControlID="TextBox1" />
             </div>
             <div class="mb-3">
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">

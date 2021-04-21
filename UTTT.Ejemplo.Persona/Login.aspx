@@ -48,7 +48,7 @@
                 </div>
                
             <div class="mb-3">
-                        <asp:Label ID="lblErrorMessage" runat="server" Text="Error de credenciales" ForeColor="Red"></asp:Label>
+                        <asp:Label ID="lblErrorMessage" runat="server" Text="Error de credenciales o el usuario esta bloqueado" ForeColor="Red"></asp:Label>
                     
              </div>   
            
